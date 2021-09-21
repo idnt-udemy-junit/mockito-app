@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## UNRELEASED
 
 ### ADD
+- **`feature` `#03 - Mockito` // `#035` - Realizando primeras pruebas con mockito**
+  - _A timeout has been added to simulate a working time in the `ExamRepositoryImpl` class._
+  - _The `findExamByName` method of the `ExamServiceImpl` class has been edited to return an `Optional`._
+  - _A test has been added in the `ExamServiceImplTest` class with the repository mocked so that the `findAll` method returns data and finds an exam._
+  - _A test has been added in the `ExamServiceImplTest` class with the repository mocked so that the `findAll` method doesn't return data and retrieves an empty `Optional`._  
+  - _The NOTES file has been updated._
+  
+
 - **`feature` `#03 - Mockito` // `#034` - Implementando la clase Service**
   - _The implementation of the `ExamService` class has been created._
   - _The implementation of the `ExamRepository` class has been created._
