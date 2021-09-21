@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## UNRELEASED
 
 ### ADD
+- **`feature` `#03 - Mockito` // `#034` - Implementando la clase Service**
+  - _The implementation of the `ExamService` class has been created._
+  - _The implementation of the `ExamRepository` class has been created._
+  - _The test class `ExamServiceImplTest` has been created for the class `ExamServiceImpl`._  
+  
+
 - **`feature` `#03 - Mockito` // `#033` - Creando y configurando el proyecto con JUnit 5 y Mockito**
   - _The dependencies that we will need have been added to the project._
   - _Some classes have been created to the project (`Exam`, `ExamService` and `ExamRepository`)._
+  - _The NOTES file has been updated._
 ---
