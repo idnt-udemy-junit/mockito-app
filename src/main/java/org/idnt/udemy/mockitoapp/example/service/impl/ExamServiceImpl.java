@@ -16,11 +16,10 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public Exam findExamByName(String name) {
+    public Optional<Exam> findExamByName(String name) {
         return this.examRepository.findAll()
                 .stream()
                 .filter(exam -> exam.getName().contains(name))
-                .findFirst()
-                .orElseThrow();
+                .findFirst();
     }
 }
