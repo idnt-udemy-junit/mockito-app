@@ -2,6 +2,7 @@ package org.idnt.udemy.mockitoapp.example.service.impl.test;
 
 import org.idnt.udemy.mockitoapp.example.model.Exam;
 import org.idnt.udemy.mockitoapp.example.repository.ExamRepository;
+import org.idnt.udemy.mockitoapp.example.repository.QuestionRepository;
 import org.idnt.udemy.mockitoapp.example.repository.impl.ExamRepositoryImpl;
 import org.idnt.udemy.mockitoapp.example.service.ExamService;
 import org.idnt.udemy.mockitoapp.example.service.impl.ExamServiceImpl;
@@ -21,10 +22,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class ExamServiceImplTest {
+    private ExamRepository examRepository;
+    private QuestionRepository questionRepository;
+    private ExamService examService;
     private List<Exam> examList;
 
     @BeforeEach
     void setUp() {
+        this.examRepository = mock(ExamRepositoryImpl.class);
+        this.questionRepository = mock(QuestionRepository.class);
+        this.examService = new ExamServiceImpl(examRepository, questionRepository);
         this.examList = Arrays.asList(
                 new Exam( 1L, "Matemáticas"),
                 new Exam( 2L, "Lengua"),
@@ -42,11 +49,8 @@ class ExamServiceImplTest {
         final Long EXPECT_ID = id;
         final String EXPECT_NAME = name;
 
-        ExamRepository repository = mock(ExamRepositoryImpl.class);
-        when(repository.findAll()).thenReturn(this.examList);
-
-        ExamService service = new ExamServiceImpl(repository);
-        Optional<Exam> examOptional = service.findExamByName(EXAM_NAME);
+        when(this.examRepository.findAll()).thenReturn(this.examList);
+        Optional<Exam> examOptional = this.examService.findExamByName(EXAM_NAME);
 
         assertTrue(examOptional.isPresent(), () -> "The resulting exam can't be void.");
         assertEquals(EXPECT_ID, examOptional.get().getId(), () -> String.format("The id of resulting exam isn't %d", EXPECT_ID));
@@ -58,11 +62,8 @@ class ExamServiceImplTest {
     void givenRepositoryHasNotData_whenFindExamByNameIsCalled_thenReturnEmptyOptional() {
         final String EXAM_NAME = "Matemáticas";
 
-        ExamRepository repository = mock(ExamRepositoryImpl.class);
-        when(repository.findAll()).thenReturn(Collections.emptyList());
-
-        ExamService service = new ExamServiceImpl(repository);
-        Optional<Exam> examOptional = service.findExamByName(EXAM_NAME);
+        when(this.examRepository.findAll()).thenReturn(Collections.emptyList());
+        Optional<Exam> examOptional = examService.findExamByName(EXAM_NAME);
 
         assertFalse(examOptional.isPresent(), () -> "The resulting exam must be void.");
     }
