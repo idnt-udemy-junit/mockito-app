@@ -11,13 +11,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class ExamServiceImplTest {
     private ExamRepository examRepository;
@@ -36,7 +36,7 @@ class ExamServiceImplTest {
     }
 
     @ParameterizedTest(name="{index}-> args = [{argumentsWithNames}]")
-    @CsvSource({"1,Matemáticas", "2,Lengua", "3,Inglés", "4,Historia", "5,Geografía",})
+    @CsvSource({"1,Matemáticas", "2,Lengua", "3,Inglés", "4,Historia", "5,Geografía"})
     @DisplayName("Search and find an exam by name in exams repository with data")
     void givenNameThatExistsInExamRepository_whenFindExamByNameIsCalled_thenReturnOptionalWithCorrectExam(
             final Long id, final String name) {
@@ -64,7 +64,7 @@ class ExamServiceImplTest {
     }
 
     @ParameterizedTest(name="{index}-> args = [{argumentsWithNames}]")
-    @CsvSource({"1,Matemáticas,2", "2,Lengua,3", "3,Inglés,0", "4,Historia,0", "5,Geografía,0",})
+    @CsvSource({"1,Matemáticas,2", "2,Lengua,3", "3,Inglés,0", "4,Historia,0", "5,Geografía,0"})
     @DisplayName("Search and find an exam with questions by name in questions repository with data")
     void givenNameThatExistsInExamRepository_whenFindExamByNameWithQuestionsIsCalled_thenReturnOptionalWithCorrectExamWithQuestions(
             final Long id, final String name, final int totalQuestions) {
@@ -78,5 +78,17 @@ class ExamServiceImplTest {
         assertNotNull(exam.getQuestions(), () -> "The questions of resulting exam can't be null.");
         assertEquals(totalQuestions, exam.getQuestions().size(), () ->
                 String.format("The size of the questions of resulting exam must be %s", totalQuestions));
+    }
+
+    @ParameterizedTest(name="{index}-> args = [{argumentsWithNames}]")
+    @ValueSource(strings = {"Matemáticas", "Lengua", "Inglés", "Historia", "Geografía"})
+    @DisplayName("Search and find an exam with questions by name in questions repository with data - Method call verification test")
+    void givenNameThatExistsInExamRepository_whenFindExamByNameWithQuestionsIsCalled_thenReturnOptionalWithCorrectExamWithQuestions_testVerifyMethodCall(
+            final String name) {
+        when(this.examRepository.findAll()).thenReturn(this.dataListExam);
+        Optional<Exam> examWithQuestionsOptional = this.examService.findExamByNameWithQuestions(name);
+
+        verify(this.examRepository).findAll();
+        verify(this.questionRepository).findQuestionByExamId(anyLong());
     }
 }
