@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## UNRELEASED
 
 ### ADD
+- **`feature` `#03 - Mockito` // `#037` - Probando nuevas dependencias mock**
+  - _Repository implementations have been removed._
+  - _A new class has been created to store the example data._
+  - _A new test has been added to test the new `findExamByNameWithQuestions` method of the `ExamServiceImpl` class._  
+  
+  
 - **`feature` `#03 - Mockito` // `#036` - Agregando nuevas dependencias mock**
   - The implementation of the `ExamRepository` has been updated.
   - The `QuestionRepository` has been created and implemented.
