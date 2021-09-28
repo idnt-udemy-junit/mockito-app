@@ -35,13 +35,13 @@ class ExamServiceImplTest {
     @InjectMocks
     private ExamServiceImpl examService;
 
+    private Exam exam;
     private List<Exam> dataListExam;
     private Map<Long, List<String>> dataListExamQuestions;
 
     @BeforeEach
     void setUp() {
-        //MockitoAnnotations.openMocks(this);
-
+        this.exam = new Exam(EXAM.getId(), EXAM.getName());
         this.dataListExam = new ArrayList<>(DATA_LIST_EXAM);
         this.dataListExamQuestions = new HashMap<>(DATA_LIST_EXAM_QUESTION);
     }
@@ -101,5 +101,21 @@ class ExamServiceImplTest {
 
         verify(this.examRepository).findAll();
         verify(this.questionRepository).findQuestionByExamId(anyLong());
+    }
+
+    @Test
+    @DisplayName("Check that an exam with questions is saved and the saved exam is returned")
+    void givenExamWithQuestions_whenSaveIsCalled_thenReturnSavedExam() {
+        this.exam.setQuestions(Arrays.asList("Question 1"));
+
+        when(this.examRepository.save(any(Exam.class))).thenReturn(this.exam);
+        Exam examSaved = this.examService.save(this.exam);
+
+        assertNotNull(examSaved, () -> "The saved exam can't be null");
+        assertEquals(6L, examSaved.getId(), () -> "The id of the saved exam doesn't match with the expected id");
+        assertEquals("Física", examSaved.getName(), () -> "The name of the saved exam doesn't match with the expected name");
+        verify(this.examRepository).save(any(Exam.class));
+        verify(this.questionRepository).saveSeveral(anyLong(), anyList());
+        assertEquals(1, examSaved.getQuestions().size());
     }
 }

@@ -5,10 +5,14 @@ import org.idnt.udemy.mockitoapp.example.model.Exam;
 import java.util.*;
 
 public class ExamServiceImplTestData {
+    public static final Exam EXAM;
     public static final List<Exam> DATA_LIST_EXAM;
     public static final Map<Long, List<String>> DATA_LIST_EXAM_QUESTION;
     
     static{
+        //EXAM
+        EXAM = new Exam(6L, "Física");
+
         //LIST OF EXAMS
         DATA_LIST_EXAM = Arrays.asList(
                 new Exam( 1L, "Matemáticas"),
