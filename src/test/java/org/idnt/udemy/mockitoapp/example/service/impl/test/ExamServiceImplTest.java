@@ -9,9 +9,14 @@ import static org.idnt.udemy.mockitoapp.example.service.impl.test.util.ExamServi
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
@@ -19,18 +24,24 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class ExamServiceImplTest {
+    @Mock
     private ExamRepository examRepository;
+
+    @Mock
     private QuestionRepository questionRepository;
-    private ExamService examService;
+
+    @InjectMocks
+    private ExamServiceImpl examService;
+
     private List<Exam> dataListExam;
     private Map<Long, List<String>> dataListExamQuestions;
 
     @BeforeEach
     void setUp() {
-        this.examRepository = mock(ExamRepository.class);
-        this.questionRepository = mock(QuestionRepository.class);
-        this.examService = new ExamServiceImpl(examRepository, questionRepository);
+        //MockitoAnnotations.openMocks(this);
+
         this.dataListExam = new ArrayList<>(DATA_LIST_EXAM);
         this.dataListExamQuestions = new HashMap<>(DATA_LIST_EXAM_QUESTION);
     }
