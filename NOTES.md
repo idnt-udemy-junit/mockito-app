@@ -17,11 +17,20 @@ Repository repository = mock(Repository.class);
 `org.mockito.Mockito.mock`
 
 ### + `when()`
-Este método nos permite establecer un comportamiento para el objeto mock. Ej.:  
+Este método nos permite establecer un comportamiento para el objeto mock. Ej.:
 ```java
 Repository repository = mock(Repository.class);
-when(repository.findAll()).thenReturn(Collections.emptyList());
+        when(repository.findAll()).thenReturn(Collections.emptyList());
 ```
 
 **Packaje:**  
 `org.mockito.Mockito.when`
+
+### + `verify()`
+Este método nos permite comprobar si se realiza una llamada a un determinado método del objeto mock. Ej.:
+```java
+verify(repository).findAll();
+```
+
+**Packaje:**  
+`org.mockito.Mockito.verify`
