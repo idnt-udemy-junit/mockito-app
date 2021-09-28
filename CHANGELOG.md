@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## UNRELEASED
 
 ### ADD
+- **`feature` `#03 - Mockito` // `#040` - Realizando más pruebas del repositorio con el método guardar**
+  - _Method `save` has been added in class `ExamRepository`._
+  - _Method `saveSeveral` has been added in class `QuestionRepository`._
+  - _Method `save` has been added in class `ExamService`._
+  - _Method `save` of `ExamService` class has been implemented in `ExamServiceImpl` class._
+  - _An exam has been added to the test data class._
+  - _A test has been added to the `ExamServiceImplT` class to test the `save` method of the `ExamServiceImpl` class._  
+  
+
 - **`feature` `#03 - Mockito` // `#039` - Inyección de dependecia y anotaciones @Mock, @InjectMocks y @ExtendWith**
   - _The mocks of the `ExamServiceImplTest` class have been set through Mockito annotations._  
   - _The NOTES file has been updated._  
