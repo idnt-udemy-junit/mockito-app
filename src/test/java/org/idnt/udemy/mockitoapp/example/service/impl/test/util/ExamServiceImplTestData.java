@@ -8,6 +8,7 @@ public class ExamServiceImplTestData {
     public static final Exam EXAM;
     public static final List<Exam> DATA_LIST_EXAM;
     public static final List<Exam> DATA_LIST_EXAM_WITH_ID_AS_NULL;
+    public static final List<Exam> DATA_LIST_EXAM_WITH_ID_NEGATIVES;
     public static final Map<Long, List<String>> DATA_LIST_EXAM_QUESTION;
     
     static{
@@ -27,6 +28,12 @@ public class ExamServiceImplTestData {
         DATA_LIST_EXAM_WITH_ID_AS_NULL = new ArrayList<>();
         for(Exam exam : DATA_LIST_EXAM){
             DATA_LIST_EXAM_WITH_ID_AS_NULL.add(new Exam(null, exam.getName()));
+        }
+
+        //LIST OF EXAMS WITH IDS NEGATIVES
+        DATA_LIST_EXAM_WITH_ID_NEGATIVES = new ArrayList<>();
+        for(Exam exam : DATA_LIST_EXAM){
+            DATA_LIST_EXAM_WITH_ID_NEGATIVES.add(new Exam(exam.getId()*-1, exam.getName()));
         }
 
         //LIST OF EXAM QUESTIONS
