@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## UNRELEASED
 
 ### ADD
+- **`feature` `#03 - Mockito` // `#045` - Capturando argumentos de método con Argument capture**
+  - _Some error has been fixed in `ExamServiceImplTest` class._
+  - _A new test has been added to the `ExamServiceImplTest` class to test "Argument Capture"._  
+  
+
 - **`feature` `#03 - Mockito` // `#044` - Argument matchers parte 2**
   - _The `ExamServiceImplTestData` class has been updated._
   - _The last test that was added to test more of the "Argument Matcher" has been edited._  
