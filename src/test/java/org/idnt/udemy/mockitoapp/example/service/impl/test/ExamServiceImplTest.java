@@ -22,6 +22,7 @@ import java.util.*;
 import static org.idnt.udemy.mockitoapp.example.service.impl.test.util.ExamServiceImplTestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,12 +38,14 @@ class ExamServiceImplTest {
 
     private Exam exam;
     private List<Exam> dataListExam;
+    private List<Exam> dataListExamWithIdAsNull;
     private Map<Long, List<String>> dataListExamQuestions;
 
     @BeforeEach
     void setUp() {
         this.exam = new Exam(EXAM.getId(), EXAM.getName());
         this.dataListExam = new ArrayList<>(DATA_LIST_EXAM);
+        this.dataListExamWithIdAsNull = new ArrayList<>(DATA_LIST_EXAM_WITH_ID_AS_NULL);
         this.dataListExamQuestions = new HashMap<>(DATA_LIST_EXAM_QUESTION);
     }
 
@@ -143,8 +146,25 @@ class ExamServiceImplTest {
         assertEquals(6L, examSaved.getId(), () -> "The id of the saved exam doesn't match with the expected id");
         assertEquals("Física", examSaved.getName(), () -> "The name of the saved exam doesn't match with the expected name");
         verify(this.examRepository).save(any(Exam.class));
-        verify(this.questionRepository).saveSeveral(isNull(), anyList());
+        verify(this.questionRepository).saveSeveral(any(), anyList());
         assertEquals(this.exam.getQuestions().size(), examSaved.getQuestions().size(), () ->
                 String.format("The size of the questions of resulting exam must be %s", this.exam.getQuestions().size()));
+    }
+
+    @ParameterizedTest(name="{index}-> args = [{argumentsWithNames}]")
+    @ValueSource(strings = {"Matemáticas", "Lengua", "Inglés", "Historia", "Geografía"})
+    @DisplayName("Check that an exam with questions and no id, when searching for its questions throws an IllegalArgumentException")
+    void givenSearchedExamWithIdAsNull_whenFindExamByNameWithQuestionsIsCalled_thenThrowsIllegalArgumentException(
+            final String name ) {
+        //Given
+        when(this.examRepository.findAll()).thenReturn(this.dataListExamWithIdAsNull);
+        when(this.questionRepository.findQuestionByExamId(isNull())).thenThrow(IllegalArgumentException.class);
+
+        //When and Then
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                this.examService.findExamByNameWithQuestions(name));
+        assertEquals(IllegalArgumentException.class, exception.getClass());
+        verify(this.examRepository).findAll();
+        verify(this.questionRepository).findQuestionByExamId(isNull());
     }
 }
