@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## UNRELEASED
 
 ### ADD
+- **`feature` `#03 - Mockito` // `#041` - Test del id incremental en el método guardar usando Invocation Argument**
+  - _The `ExamServiceImplTestData` class has been updated._
+  - _The `givenExamWithQuestions_whenSaveIsCalled_thenReturnSavedExam` test of `ExamServiceImplTest` has been updated to test the incremental id._
+  - _The NOTES file has been updated._  
+
+
 - **`feature` `#03 - Mockito` // `#040` - Realizando más pruebas del repositorio con el método guardar**
   - _Method `save` has been added in class `ExamRepository`._
   - _Method `saveSeveral` has been added in class `QuestionRepository`._
