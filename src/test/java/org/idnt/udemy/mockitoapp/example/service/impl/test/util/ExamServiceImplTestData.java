@@ -7,6 +7,7 @@ import java.util.*;
 public class ExamServiceImplTestData {
     public static final Exam EXAM;
     public static final List<Exam> DATA_LIST_EXAM;
+    public static final List<Exam> DATA_LIST_EXAM_WITH_ID_AS_NULL;
     public static final Map<Long, List<String>> DATA_LIST_EXAM_QUESTION;
     
     static{
@@ -21,6 +22,12 @@ public class ExamServiceImplTestData {
                 new Exam( 4L, "Historia"),
                 new Exam( 5L, "Geografía")
         );
+
+        //LIST OF EXAMS WITH ID AS NULL
+        DATA_LIST_EXAM_WITH_ID_AS_NULL = DATA_LIST_EXAM;
+        for(Exam exam : DATA_LIST_EXAM_WITH_ID_AS_NULL){
+            exam.setId(null);
+        }
 
         //LIST OF EXAM QUESTIONS
         DATA_LIST_EXAM_QUESTION = new HashMap<>();

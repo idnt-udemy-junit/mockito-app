@@ -70,3 +70,13 @@ Esta anotación marca una propiedad para inyectarle los mocks a través del cons
 
 **Packaje:**  
 `org.mockito.InjectMocks`
+
+### + `Assertions.assertThrows`
+Este método comprueba que se lanza una excepción y la devuelve. Ej.:  
+```java
+Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                service.findExamByName(name));
+```
+
+**Packaje:**  
+`org.junit.jupiter.api.Assertions.assertThrows`
