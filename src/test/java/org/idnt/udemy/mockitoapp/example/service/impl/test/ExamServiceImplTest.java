@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
@@ -166,5 +167,22 @@ class ExamServiceImplTest {
         assertEquals(IllegalArgumentException.class, exception.getClass());
         verify(this.examRepository).findAll();
         verify(this.questionRepository).findQuestionByExamId(isNull());
+    }
+
+    @ParameterizedTest(name="{index}-> args = [{argumentsWithNames}]")
+    @CsvSource({"1,Matemáticas,2", "2,Lengua,3", "3,Inglés,0", "4,Historia,0", "5,Geografía,0"})
+    @DisplayName("Search and find an exam with questions by name in questions repository with data - Argument Mathcers")
+    void givenNameThatExistsInExamRepository_whenFindExamByNameWithQuestionsIsCalled_thenCheckIfRepositoriesMethodsWasCalled(
+            final Long id, final String name, final int totalQuestions ) {
+        //Given
+        when(this.examRepository.findAll()).thenReturn(this.dataListExam);
+        when(this.questionRepository.findQuestionByExamId(anyLong())).thenReturn(this.dataListExamQuestions.get(id));
+
+        //When
+        this.examService.findExamByNameWithQuestions(name);
+
+        //Then
+        verify(this.examRepository).findAll();
+        verify(this.questionRepository).findQuestionByExamId(argThat(arg -> arg != null && arg.equals(id)));
     }
 }
