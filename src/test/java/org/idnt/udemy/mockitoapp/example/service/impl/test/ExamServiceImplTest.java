@@ -11,10 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.ArgumentMatcher;
-import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
@@ -174,34 +171,29 @@ class ExamServiceImplTest {
 
     @ParameterizedTest(name="{index}-> args = [{argumentsWithNames}]")
     @ValueSource(strings = {"Matemáticas", "Lengua", "Inglés", "Historia", "Geografía"})
-    @DisplayName("Search and find an exam with questions by name in questions repository with data - Argument Mathcers")
-    void givenNameThatExistsInExamRepositoryWithIdsNegatives_whenFindExamByNameWithQuestionsIsCalled_thenCheckIfRepositoriesMethodsWasCalled(
-            final Long id, final String name ) {
+    @DisplayName("Argument Mathcers")
+    void givenNameThatExistsInExamRepositoryWithIdsNegatives_whenFindExamByNameWithQuestionsIsCalled_thenTestArgumentMatchers(
+            final String name ) {
         //Given
         when(this.examRepository.findAll()).thenReturn(this.dataListExamWithIdsNegatives);
-        when(this.questionRepository.findQuestionByExamId(anyLong())).thenReturn(this.dataListExamQuestions.get(anyLong()));
+        when(this.questionRepository.findQuestionByExamId(anyLong())).thenReturn(Collections.emptyList());
 
         //When
         this.examService.findExamByNameWithQuestions(name);
 
         //Then
         verify(this.examRepository).findAll();
-        verify(this.questionRepository).findQuestionByExamId(argThat(new MyArgsMatchers(id)));
+        verify(this.questionRepository).findQuestionByExamId(argThat(new MyArgsMatchers()));
     }
 
     //My Argunment Matcher
     public static class MyArgsMatchers implements ArgumentMatcher<Long>{
         private Long argument;
-        private Long id;
-
-        public MyArgsMatchers(Long id) {
-            this.id = id;
-        }
 
         @Override
         public boolean matches(Long aLong) {
             this.argument = aLong;
-            return aLong != null && aLong > 0 && aLong == this.id;
+            return aLong != null && aLong > 0;
         }
 
         @Override
@@ -209,5 +201,25 @@ class ExamServiceImplTest {
             return "This is a custom error message that Mockito will display in case the test fails !"+
                     String.format("\n\tArgument must be greater than 0 and mustn't be void. Argument: %d", this.argument);
         }
+    }
+
+    @ParameterizedTest(name="{index}-> args = [{argumentsWithNames}]")
+    @ValueSource(strings = {"Matemáticas", "Lengua", "Inglés", "Historia", "Geografía"})
+    @DisplayName("Argument Capture")
+    void givenNameThatExistsInExamRepositoryWithIdsNegatives_whenFindExamByNameWithQuestionsIsCalled_thenCheckTestArgumentCapture(
+            final String name ) {
+        //Given
+        when(this.examRepository.findAll()).thenReturn(this.dataListExamWithIdsNegatives);
+        when(this.questionRepository.findQuestionByExamId(anyLong())).thenReturn(Collections.emptyList());
+
+        //When
+        this.examService.findExamByNameWithQuestions(name);
+
+        //Then
+        ArgumentCaptor<Long> argumentCaptor = ArgumentCaptor.forClass(Long.class);
+        verify(this.questionRepository).findQuestionByExamId(argumentCaptor.capture());
+        assertNotNull(argumentCaptor.getValue(), () -> "The argument in \"findQuestionByExamId\" method of \"QuestionRepository\" can't be null.");
+        assertTrue(argumentCaptor.getValue() > 0, () ->
+                String.format("The argument in \"findQuestionByExamId\" method of \"QuestionRepository\" must be greater than 0. Actual: %s", argumentCaptor.getValue()));
     }
 }
