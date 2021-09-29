@@ -24,9 +24,9 @@ public class ExamServiceImplTestData {
         );
 
         //LIST OF EXAMS WITH ID AS NULL
-        DATA_LIST_EXAM_WITH_ID_AS_NULL = DATA_LIST_EXAM;
-        for(Exam exam : DATA_LIST_EXAM_WITH_ID_AS_NULL){
-            exam.setId(null);
+        DATA_LIST_EXAM_WITH_ID_AS_NULL = new ArrayList<>();
+        for(Exam exam : DATA_LIST_EXAM){
+            DATA_LIST_EXAM_WITH_ID_AS_NULL.add(new Exam(null, exam.getName()));
         }
 
         //LIST OF EXAM QUESTIONS
