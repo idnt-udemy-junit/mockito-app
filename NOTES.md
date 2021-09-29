@@ -17,14 +17,29 @@ Repository repository = mock(Repository.class);
 `org.mockito.Mockito.mock`
 
 ### + `when()`
-Este método nos permite establecer un comportamiento para el objeto mock. Ej.:
+Este método nos permite establecer un comportamiento para el objeto mock.   
+Se puede establecer que va a devolver una llamada a un método de mock con el método `thenReturn` de la respuesta del `when`. Ej.:
 ```java
 Repository repository = mock(Repository.class);
         when(repository.findAll()).thenReturn(Collections.emptyList());
 ```
+También se puede utilizar el métod `then` de ka respuesta del `when`, el cual se le pasa un objeto `Answer`. Ej.:  
+```java
+when(repository.save(any(Object.class))).then(new Answer<Object>(){
+            private Long secuencial = 1L;
+
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                Object obj = invocationOnMock.getArgument(0); //Obtiene el parámetro de la llamada del mock
+                obj.setId(this.secuencial++); //Lo modificamos
+                return obj; //Y lo devolvemos
+            }
+        });
+```
 
 **Packaje:**  
-`org.mockito.Mockito.when`
+`org.mockito.Mockito.when`  
+`org.mockito.stubbing.Answer`  
 
 ### + `verify()`
 Este método nos permite comprobar si se realiza una llamada a un determinado método del objeto mock. Ej.:

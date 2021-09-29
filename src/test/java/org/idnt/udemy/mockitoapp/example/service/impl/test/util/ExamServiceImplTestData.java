@@ -11,7 +11,7 @@ public class ExamServiceImplTestData {
     
     static{
         //EXAM
-        EXAM = new Exam(6L, "Física");
+        EXAM = new Exam(null, "Física");
 
         //LIST OF EXAMS
         DATA_LIST_EXAM = Arrays.asList(
