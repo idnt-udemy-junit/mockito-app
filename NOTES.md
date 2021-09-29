@@ -50,6 +50,24 @@ verify(repository).findAll();
 **Packaje:**  
 `org.mockito.Mockito.verify`
 
+### + `argThat()`
+Este método nos permite comprobar de manera más específica si un argumento cumple una condición. Ej.:
+```java
+verify(repository).findQuestionByExamId(argThat(arg -> arg.equals(6L)));
+```
+
+**Packaje:**  
+`org.mockito.Mockito.argThat`
+
+### + `eq()`
+Este método nos permite comprobar un argumento es igual a un valor. Ej.:
+```java
+verify(repository).findQuestionByExamId(eq(6L));
+```
+
+**Packaje:**  
+`org.mockito.Mockito.eq`
+
 ### + Habilitar las anotaciones de Mockito
 Para habilitar las anotaciones lo haremos a través de esta instrucción de Mockito `MockitoAnnotations.openMocks(this)` en un `@BeforeEach` o también podemos anotar la clase con la anotación de JUnit `@ExtendWith(MockitoExtension.class)`.
 
