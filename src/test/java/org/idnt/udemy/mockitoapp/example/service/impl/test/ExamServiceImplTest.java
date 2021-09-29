@@ -12,6 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentMatcher;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
@@ -40,6 +41,7 @@ class ExamServiceImplTest {
     private Exam exam;
     private List<Exam> dataListExam;
     private List<Exam> dataListExamWithIdAsNull;
+    private List<Exam> dataListExamWithIdsNegatives;
     private Map<Long, List<String>> dataListExamQuestions;
 
     @BeforeEach
@@ -47,6 +49,7 @@ class ExamServiceImplTest {
         this.exam = new Exam(EXAM.getId(), EXAM.getName());
         this.dataListExam = new ArrayList<>(DATA_LIST_EXAM);
         this.dataListExamWithIdAsNull = new ArrayList<>(DATA_LIST_EXAM_WITH_ID_AS_NULL);
+        this.dataListExamWithIdsNegatives = new ArrayList<>(DATA_LIST_EXAM_WITH_ID_NEGATIVES);
         this.dataListExamQuestions = new HashMap<>(DATA_LIST_EXAM_QUESTION);
     }
 
@@ -170,19 +173,41 @@ class ExamServiceImplTest {
     }
 
     @ParameterizedTest(name="{index}-> args = [{argumentsWithNames}]")
-    @CsvSource({"1,Matemáticas,2", "2,Lengua,3", "3,Inglés,0", "4,Historia,0", "5,Geografía,0"})
+    @ValueSource(strings = {"Matemáticas", "Lengua", "Inglés", "Historia", "Geografía"})
     @DisplayName("Search and find an exam with questions by name in questions repository with data - Argument Mathcers")
-    void givenNameThatExistsInExamRepository_whenFindExamByNameWithQuestionsIsCalled_thenCheckIfRepositoriesMethodsWasCalled(
-            final Long id, final String name, final int totalQuestions ) {
+    void givenNameThatExistsInExamRepositoryWithIdsNegatives_whenFindExamByNameWithQuestionsIsCalled_thenCheckIfRepositoriesMethodsWasCalled(
+            final Long id, final String name ) {
         //Given
-        when(this.examRepository.findAll()).thenReturn(this.dataListExam);
-        when(this.questionRepository.findQuestionByExamId(anyLong())).thenReturn(this.dataListExamQuestions.get(id));
+        when(this.examRepository.findAll()).thenReturn(this.dataListExamWithIdsNegatives);
+        when(this.questionRepository.findQuestionByExamId(anyLong())).thenReturn(this.dataListExamQuestions.get(anyLong()));
 
         //When
         this.examService.findExamByNameWithQuestions(name);
 
         //Then
         verify(this.examRepository).findAll();
-        verify(this.questionRepository).findQuestionByExamId(argThat(arg -> arg != null && arg.equals(id)));
+        verify(this.questionRepository).findQuestionByExamId(argThat(new MyArgsMatchers(id)));
+    }
+
+    //My Argunment Matcher
+    public static class MyArgsMatchers implements ArgumentMatcher<Long>{
+        private Long argument;
+        private Long id;
+
+        public MyArgsMatchers(Long id) {
+            this.id = id;
+        }
+
+        @Override
+        public boolean matches(Long aLong) {
+            this.argument = aLong;
+            return aLong != null && aLong > 0 && aLong == this.id;
+        }
+
+        @Override
+        public String toString() {
+            return "This is a custom error message that Mockito will display in case the test fails !"+
+                    String.format("\n\tArgument must be greater than 0 and mustn't be void. Argument: %d", this.argument);
+        }
     }
 }
