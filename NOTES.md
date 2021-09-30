@@ -96,6 +96,18 @@ verify(repository).findAll();
 **Packaje:**  
 `org.mockito.Mockito.verify`
 
+### + `inOrder()`
+Este método nos permite comprobar el orden de llamada a unos determinados métodos de un mock. Ej.:
+```java
+InOrder inOrder = inOrder(this.repository1, this.repository2);
+inOrder.verify(this.repository1).findAll();
+inOrder.verify(this.this.repository2).findExamById(1L);
+inOrder.verify(this.this.repository2).findExamById(2L);
+```
+
+**Packaje:**  
+`org.mockito.Mockito.inOrder`
+
 ### + `argThat()`
 Este método nos permite comprobar de manera más específica si un argumento cumple una condición. Ej.:
 ```java
