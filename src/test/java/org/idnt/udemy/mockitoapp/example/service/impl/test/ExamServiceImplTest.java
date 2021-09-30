@@ -345,7 +345,7 @@ class ExamServiceImplTest {
     }
 
     @Test
-    void testInvocationOrder1() {
+    void testInvocationOrder() {
         //Given
         when(this.examRepository.findAll()).thenReturn(this.dataListExam);
 
@@ -359,5 +359,34 @@ class ExamServiceImplTest {
         inOrder.verify(this.questionRepository).findQuestionByExamId(1L);
         inOrder.verify(this.examRepository).findAll();
         inOrder.verify(this.questionRepository).findQuestionByExamId(2L);
+    }
+
+    @Test
+    void testInvocationNumber() {
+        //Given
+        when(this.examRepository.findAll()).thenReturn(this.dataListExam);
+
+        //When
+        this.examService.findExamByNameWithQuestions("Matemáticas");
+
+        //Then
+        //It's invoked 1 time
+        verify(this.questionRepository, times(1)).findQuestionByExamId(1L);
+
+        //It's invoked at least 1 time
+        verify(this.questionRepository, atLeast(1)).findQuestionByExamId(1L);
+
+        //Itvs invoked at least 1 time
+        verify(this.questionRepository, atLeastOnce()).findQuestionByExamId(1L);
+
+        //It's invoked at most 1 time
+        verify(this.questionRepository, atMost(1)).findQuestionByExamId(1L);
+
+        //It's invoked at most 1 time
+        verify(this.questionRepository, atMostOnce()).findQuestionByExamId(1L);
+
+        //It has never been invoked
+        verifyNoInteractions(this.questionRepository);
+        verify(this.questionRepository, never()).findQuestionByExamId(1L);
     }
 }
