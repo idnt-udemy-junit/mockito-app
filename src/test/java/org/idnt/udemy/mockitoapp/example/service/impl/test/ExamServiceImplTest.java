@@ -3,6 +3,8 @@ package org.idnt.udemy.mockitoapp.example.service.impl.test;
 import org.idnt.udemy.mockitoapp.example.model.Exam;
 import org.idnt.udemy.mockitoapp.example.repository.ExamRepository;
 import org.idnt.udemy.mockitoapp.example.repository.QuestionRepository;
+import org.idnt.udemy.mockitoapp.example.repository.impl.ExamRepositoryImpl;
+import org.idnt.udemy.mockitoapp.example.repository.impl.QuestionRepositoryImpl;
 import org.idnt.udemy.mockitoapp.example.service.impl.ExamServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,10 +29,10 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ExamServiceImplTest {
     @Mock
-    private ExamRepository examRepository;
+    private ExamRepositoryImpl examRepository;
 
     @Mock
-    private QuestionRepository questionRepository;
+    private QuestionRepositoryImpl questionRepository;
 
     @InjectMocks
     private ExamServiceImpl examService;
@@ -287,5 +289,29 @@ class ExamServiceImplTest {
         verify(this.questionRepository).saveSeveral(any(), anyList());
         assertEquals(this.exam.getQuestions().size(), examSaved.getQuestions().size(), () ->
                 String.format("The size of the questions of resulting exam must be %s", this.exam.getQuestions().size()));
+    }
+
+    @Test
+    void testDoCallRealMethod() {
+        //Given
+        when(this.examRepository.findAll()).thenReturn(this.dataListExam);
+        //when(this.questionRepository.findQuestionByExamId(anyLong())).thenReturn(Collections.emptyList());
+        /**
+         * The class constructor and initialized properties do not work.
+         * Itsn't clear to me why.
+         */
+        doCallRealMethod().when(this.questionRepository).findQuestionByExamId(anyLong());
+
+        //When
+        Optional<Exam> examWithQuestionsOptional = this.examService.findExamByNameWithQuestions("Matemáticas");
+
+        //Then
+        assertTrue(examWithQuestionsOptional.isPresent(), () -> "The resulting exam can't be void.");
+        Exam exam = examWithQuestionsOptional.get();
+        assertEquals("Matemáticas", exam.getName(), () -> "The name of the exam doesn't match with the expected name.");
+        assertNotNull(exam.getQuestions(), () -> "The questions of resulting exam can't be null.");
+        assertEquals(0, exam.getQuestions().size(), () ->
+                String.format("The size of the questions of resulting exam must be %s", 0));
+        verify(this.questionRepository).findQuestionByExamId(anyLong());
     }
 }

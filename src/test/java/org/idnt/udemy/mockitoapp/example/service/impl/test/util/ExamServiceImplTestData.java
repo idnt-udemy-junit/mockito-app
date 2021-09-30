@@ -1,6 +1,7 @@
 package org.idnt.udemy.mockitoapp.example.service.impl.test.util;
 
 import org.idnt.udemy.mockitoapp.example.model.Exam;
+import org.idnt.udemy.mockitoapp.example.repository.impl.Data;
 
 import java.util.*;
 
@@ -16,13 +17,7 @@ public class ExamServiceImplTestData {
         EXAM = new Exam(null, "Física");
 
         //LIST OF EXAMS
-        DATA_LIST_EXAM = Arrays.asList(
-                new Exam( 1L, "Matemáticas"),
-                new Exam( 2L, "Lengua"),
-                new Exam( 3L, "Inglés"),
-                new Exam( 4L, "Historia"),
-                new Exam( 5L, "Geografía")
-        );
+        DATA_LIST_EXAM = Data.DATA_LIST_EXAM;
 
         //LIST OF EXAMS WITH ID AS NULL
         DATA_LIST_EXAM_WITH_ID_AS_NULL = new ArrayList<>();
@@ -37,20 +32,6 @@ public class ExamServiceImplTestData {
         }
 
         //LIST OF EXAM QUESTIONS
-        DATA_LIST_EXAM_QUESTION = new HashMap<>();
-        DATA_LIST_EXAM_QUESTION.put(1L, Arrays.asList(
-                "Question 1",
-                "Question 2"
-        ));
-
-        DATA_LIST_EXAM_QUESTION.put(2L, Arrays.asList(
-                "Question 1",
-                "Question 2",
-                "Question 3"
-        ));
-
-        DATA_LIST_EXAM_QUESTION.put(3L, Collections.emptyList());
-        DATA_LIST_EXAM_QUESTION.put(4L, Collections.emptyList());
-        DATA_LIST_EXAM_QUESTION.put(5L, Collections.emptyList());
+        DATA_LIST_EXAM_QUESTION = Data.DATA_LIST_EXAM_QUESTION;
     }
 }
