@@ -41,6 +41,18 @@ when(repository.save(any(Object.class))).then(new Answer<Object>(){
 `org.mockito.Mockito.when`  
 `org.mockito.stubbing.Answer`  
 
+### + `doAnswer()`
+Este método nos permite hacer algunos cálculos/acciones adicionales cuando se llama al método simulado. Por ejemplo, podríamos calcular el valor de retorno en función de los parámetros de entrada. Ej.:
+```java
+doAnswer(invocation -> {
+        Long id = invocation.getArgument(0);
+        return id == 1L ? "Juan" : "Pepe";
+        }).when(this.repository).findNameById(anyLong());
+```
+
+**Packaje:**  
+`org.mockito.Mockito.doAnswer`  
+
 ### + `doThrow()`
 Este método nos permite establecer un comportamiento para el objeto mock.   
 Se puede establecer que va a cuando se realice una llamada a un método vacío del mock. Ej.:
