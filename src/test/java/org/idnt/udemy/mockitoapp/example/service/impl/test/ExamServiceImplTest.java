@@ -235,4 +235,57 @@ class ExamServiceImplTest {
         //When // Then
         assertThrows(IllegalArgumentException.class, () -> this.examService.save(this.exam));
     }
+
+    @Test
+    void testDoAnswer() {
+        //Given
+        when(this.examRepository.findAll()).thenReturn(this.dataListExam);
+//        when(this.questionRepository.findQuestionByExamId(anyLong())).thenReturn(Collections.emptyList());
+        doAnswer(invocation -> {
+           Long id = invocation.getArgument(0);
+           return id == 1L ? this.dataListExamQuestions.get(id) : Collections.emptyList();
+        }).when(this.questionRepository).findQuestionByExamId(anyLong());
+
+        //When
+        Optional<Exam> examWithQuestionsOptional = this.examService.findExamByNameWithQuestions("Matemáticas");
+
+        //Then
+        assertTrue(examWithQuestionsOptional.isPresent(), () -> "The resulting exam can't be void.");
+        Exam exam = examWithQuestionsOptional.get();
+        assertEquals("Matemáticas", exam.getName(), () -> "The name of the exam doesn't match with the expected name.");
+        assertNotNull(exam.getQuestions(), () -> "The questions of resulting exam can't be null.");
+        assertEquals(2, exam.getQuestions().size(), () ->
+                String.format("The size of the questions of resulting exam must be %s", 2));
+        verify(this.questionRepository).findQuestionByExamId(anyLong());
+    }
+
+    @Test
+    @DisplayName("Check that an exam with questions is saved and the saved exam is returned - doAnswer")
+    void givenExamWithQuestions_whenSaveIsCalled_thenReturnSavedExam_doAnswer() {
+        //Given
+        this.exam.setQuestions(Arrays.asList("Question 1"));
+
+        doAnswer(new Answer<Exam>() {
+            private Long secuencial = 6L;
+
+            @Override
+            public Exam answer(InvocationOnMock invocationOnMock) throws Throwable {
+                Exam exam = invocationOnMock.getArgument(0);
+                exam.setId(this.secuencial++);
+                return exam;
+            }
+        }).when(this.examRepository).save(any(Exam.class));
+
+        //When
+        Exam examSaved = this.examService.save(this.exam);
+
+        //Then
+        assertNotNull(examSaved, () -> "The saved exam can't be null");
+        assertEquals(6L, examSaved.getId(), () -> "The id of the saved exam doesn't match with the expected id");
+        assertEquals("Física", examSaved.getName(), () -> "The name of the saved exam doesn't match with the expected name");
+        verify(this.examRepository).save(any(Exam.class));
+        verify(this.questionRepository).saveSeveral(any(), anyList());
+        assertEquals(this.exam.getQuestions().size(), examSaved.getQuestions().size(), () ->
+                String.format("The size of the questions of resulting exam must be %s", this.exam.getQuestions().size()));
+    }
 }
