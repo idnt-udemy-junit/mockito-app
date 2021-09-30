@@ -222,4 +222,17 @@ class ExamServiceImplTest {
         assertTrue(argumentCaptor.getValue() > 0, () ->
                 String.format("The argument in \"findQuestionByExamId\" method of \"QuestionRepository\" must be greater than 0. Actual: %s", argumentCaptor.getValue()));
     }
+
+    @Test
+    void testDoThrow() {
+        //Given
+        //Can't return something in a method that has no return.
+        //when(this.questionRepository.saveSeveral()).thenThrow(IllegalArgumentException.class)
+        doThrow(IllegalArgumentException.class).when(this.questionRepository).saveSeveral(anyLong(), anyList());
+        this.exam.setId(6L);
+        this.exam.setQuestions(Arrays.asList("Question 1"));
+
+        //When // Then
+        assertThrows(IllegalArgumentException.class, () -> this.examService.save(this.exam));
+    }
 }
