@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## UNRELEASED
 
 ### ADD
+- **`feature` `#03 - Mockito` // `#049` - Implementando espías con Spy y doReturn**
+  - _The `QuestionRepositoryImpl` class has been updated._
+  - _A new test has been added to the `ExamServiceImplTest` class to test the `spy`._
+  - _A new test class called `ExamServiceImplSpyTest` has been added to test spies with annotations._
+  - _The NOTES file has been updated._  
+   
+
 - **`feature` `#03 - Mockito` // `#048` - Usando doCallRealMethod para la llamada real a un método mock**
   - _Repository implementations have been retrieved._
   - _A new test has been added to the `ExamServiceImplTest` class to test `doCallRealMethod`._

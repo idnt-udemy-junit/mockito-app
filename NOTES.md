@@ -13,8 +13,14 @@ Este método nos devuelve un objeto mockeado del tipo de clase que le pasemos. E
 Repository repository = mock(Repository.class);
 ```
 
+### + `spy()`
+Este método nos devuelve un objeto mockeado del tipo de clase que le pasemos, pero a diferencia de "mock", se necesita una clase concreta y siempre que se llamen a sus métodos seran los reales a no ser que le indiquemos un comportamiento deseado. Ej.:  
+```java
+Repository repository = spy(RepositoryImpl.class);
+```
+
 **Packaje:**  
-`org.mockito.Mockito.mock`
+`org.mockito.Mockito.spy`
 
 ### + `when()`
 Este método nos permite establecer un comportamiento para el objeto mock.   
@@ -51,7 +57,16 @@ doAnswer(invocation -> {
 ```
 
 **Packaje:**  
-`org.mockito.Mockito.doAnswer`  
+`org.mockito.Mockito.doAnswer`    
+
+### + `doReturn()`
+Este método es como el "thenReturn" del método "when". Pero se utiliza sobre todo con los "spy". Ej.:
+```java
+doReturn(Collections.emptyList()).when(repository).findQuestionByExamId(anyLong());
+```
+
+**Packaje:**  
+`org.mockito.Mockito.doReturn`  
 
 ### + `doThrow()`
 Este método nos permite establecer un comportamiento para el objeto mock.   
