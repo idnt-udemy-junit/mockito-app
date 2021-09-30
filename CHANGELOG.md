@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## UNRELEASED
 
 ### ADD
+- **`feature` `#03 - Mockito` // `#050` - Verificando el orden de las invocaciones de los mock**
+  - _A new test has been added to the `ExamServiceImplTest` class to test `inOrder`._
+  - _The NOTES file has been updated._
+
+
 - **`feature` `#03 - Mockito` // `#049` - Implementando espías con Spy y doReturn**
   - _The `QuestionRepositoryImpl` class has been updated._
   - _A new test has been added to the `ExamServiceImplTest` class to test the `spy`._
