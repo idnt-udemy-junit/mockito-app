@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## UNRELEASED
 
 ### ADD
+- **`feature` `#03 - Mockito` // `#047` - Usando doAnswer**
+  - _Two new tests have been added in the `ExamServiceImplTest` class to test `doAnswer`._
+  - _The NOTES file has been updated._
+  
+
 - **`feature` `#03 - Mockito` // `#046` - Usando doThrow para comprobar excepciones en métodos void**
   - _A new test has been added in the `ExamServiceImplTest` class to test `doThrow`._  
   - _The NOTES file has been updated._
