@@ -12,6 +12,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
 
     @Override
     public List<String> findQuestionByExamId(Long id) {
+        System.out.println("QuestionRepositoryImpl.findQuestionByExamId(Long id)");
         try {
             TimeUnit.SECONDS.sleep(3);
         } catch (InterruptedException e) {
