@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## UNRELEASED
 
+---
+
+## `v1.0.0` _30/09/2021_
+
 ### ADD
 - **`feature` `#03 - Mockito` // `#051` - Verificando el número de invocaciones de los mock**
   - _A new test has been created in the `ExamServiceImplTest` class to test checks on the number of times a mock method is called._
