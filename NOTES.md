@@ -41,6 +41,16 @@ when(repository.save(any(Object.class))).then(new Answer<Object>(){
 `org.mockito.Mockito.when`  
 `org.mockito.stubbing.Answer`  
 
+### + `doThrow()`
+Este método nos permite establecer un comportamiento para el objeto mock.   
+Se puede establecer que va a cuando se realice una llamada a un método vacío del mock. Ej.:
+```java
+doThrow(IllegalArgumentException.class).when(repository).save(any());
+```
+
+**Packaje:**  
+`org.mockito.Mockito.doThrow`  
+
 ### + `verify()`
 Este método nos permite comprobar si se realiza una llamada a un determinado método del objeto mock. Ej.:
 ```java
