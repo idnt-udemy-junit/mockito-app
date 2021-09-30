@@ -98,3 +98,15 @@ Exception exception = assertThrows(IllegalArgumentException.class, () ->
 
 **Packaje:**  
 `org.junit.jupiter.api.Assertions.assertThrows`
+
+### + `ArgumentMatcher`
+Nos permite establecer conciciones a parámetros que se le pasan a un método.
+
+**Packaje:**  
+`org.mockito.ArgumentMatcher`
+
+### + `ArgumentCaptor`
+ArgumentCaptor nos permite capturar un argumento pasado a un método para inspeccionarlo. Esto es especialmente útil cuando no podemos acceder al argumento fuera del método que nos gustaría probar.
+
+**Packaje:**  
+`org.mockito.ArgumentCaptor`
