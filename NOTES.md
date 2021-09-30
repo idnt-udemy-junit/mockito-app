@@ -92,6 +92,15 @@ Este método nos permite comprobar si se realiza una llamada a un determinado m�
 ```java
 verify(repository).findAll();
 ```
+También se puede comprobar el número de veces que se llama a un método del objeto mock. Ej.:
+```java
+verify(repository, times(1)).findById(1L);
+verify(repository, atLeast(1)).findById(1L);
+verify(repository, atLeastOnce()).findById(1L);
+verify(repository, atMost(1)).findById(1L);
+verify(repository, atMostOnce()).findById(1L);
+verify(repository, never()).findById(1L);
+```
 
 **Packaje:**  
 `org.mockito.Mockito.verify`
