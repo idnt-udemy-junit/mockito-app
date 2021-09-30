@@ -343,4 +343,21 @@ class ExamServiceImplTest {
         assertEquals(0, exam.getQuestions().size(), () ->
                 String.format("The size of the questions of resu lting exam must be %s", 0));
     }
+
+    @Test
+    void testInvocationOrder1() {
+        //Given
+        when(this.examRepository.findAll()).thenReturn(this.dataListExam);
+
+        //When
+        this.examService.findExamByNameWithQuestions("Matemáticas");
+        this.examService.findExamByNameWithQuestions("Lengua");
+
+        //Then
+        InOrder inOrder = inOrder(this.examRepository, this.questionRepository);
+        inOrder.verify(this.examRepository).findAll();
+        inOrder.verify(this.questionRepository).findQuestionByExamId(1L);
+        inOrder.verify(this.examRepository).findAll();
+        inOrder.verify(this.questionRepository).findQuestionByExamId(2L);
+    }
 }
