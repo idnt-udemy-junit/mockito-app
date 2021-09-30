@@ -63,6 +63,15 @@ doThrow(IllegalArgumentException.class).when(repository).save(any());
 **Packaje:**  
 `org.mockito.Mockito.doThrow`  
 
+### + `doCallRealMethod()`
+Este método nos permite realizar una llamada al método real en vez al del mock. Ej.:
+```java
+doThrow(IllegalArgumentException.class).when(repository).save(any());
+```
+
+**Packaje:**  
+`org.mockito.Mockito.doCallRealMethod`  
+
 ### + `verify()`
 Este método nos permite comprobar si se realiza una llamada a un determinado método del objeto mock. Ej.:
 ```java
